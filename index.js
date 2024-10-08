@@ -8,16 +8,35 @@ const nodemon = require('nodemon')
 const app = express()
 const port = 3000
 const path = require('path')
-const basePath= path.join(__dirname, 'templates')
-const exphbs = require('Express-Handlebars')
+const basePath = path.join(__dirname, 'templates')
+const exphbs = require('express-handlebars')
+
+app.get('/peixe',  (req,res) => {
+    res.render('peixe')
+}
+)
+
+app.get('/', function (req,res) { //valor associa a função
+    const user = {
+        name:'Vinicius',
+        age: '23',
+        email:'Vini@gmail.com'
+    }
+
+    const approved = false
+    const auth = true
+
+
+    res.render('acai', {user: user, auth }) //enviar dados do 
+}
+)
 
 app.engine('handlebars', exphbs.engine())
-
 app.set('view engine', 'handlebars')
 
-app.get('/', (req,res) => {
-    res.render('home', {layout:false})
-})
+// app.get('/', (req, res) => {
+//     res.render('home', { layout: false })
+// })
 
 app.listen(port)
 
@@ -30,14 +49,14 @@ app.use(
 
 app.use(express.json())
 
-app.get('/users/add',(req,res) => {
+app.get('/users/add', (req, res) => {
     res.sendFile(`${basePath}/form.html`)
 })
 
 // Arquivos estáticos
 app.use(express.static('public'))
 
-app.post('/users/save', (req,res) => {
+app.post('/users/save', (req, res) => {
     console.log(req.body)
     const name = req.body.name
     const email = req.body.email
@@ -45,16 +64,16 @@ app.post('/users/save', (req,res) => {
     console.log(email)
 })
 
-app.get('/users/:id',(req,res) => {
+app.get('/users/:id', (req, res) => {
     const id = req.params.id
     // leitura, resgatar um usuário do banco de dados
     console.log(`Estamos buscando pelo usuário: ${id}`)
     res.sendFile(`${basePath}/users.html`)
 })
 
-app.get('/',(req,res) => {
-    res.sendFile(`${basePath}/index.html`)
-}) //faz uma requisição e espera uma resposta dela
+// app.get('/', (req, res) => {
+//     res.sendFile(`${basePath}/index.html`)
+// }) //faz uma requisição e espera uma resposta dela
 
 
 

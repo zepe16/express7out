@@ -6,7 +6,7 @@
 const express = require('express')
 const nodemon = require('nodemon')
 const app = express()
-const port = 3000
+const port = 5000
 const path = require('path')
 const basePath = path.join(__dirname, 'templates')
 const exphbs = require('express-handlebars')
